@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-year-calendar.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap-year-calendar.min.css">
+
+
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+
+    $(function() {
+        
+        var sundayList =new Array();
+        var currentYear = new Date().getFullYear();
+        var currentYearFirstDay = new Date()(currentYear, "0", "1");
+        alert(currentYearFirstDay);
+        sundayList = getSundayList(sundayList, currentDay)
+
+
+        var redDateTime = new Date(currentYear, 2, 13).getTime();
+        var circleDateTime = new Date(currentYear, 1, 20).getTime();
+        var circleDateTime2 = new Date(currentYear, 1, 13).getTime();
+        var borderDateTime = new Date(currentYear, 0, 12).getTime();
+
+        $('#calendar').calendar({
+        customDayRenderer: function(element, date) {
+            for (sundayDate in sundayList)
+                {
+                    if(date.getTime() == sundayDate) {
+                                                  $(element).css('background-color', 'red');
+                                                  $(element).css('color', 'white');
+                                                  $(element).css('margin', '2px');
+                    }
+                }
+        }
+    });
+});
+    function getSundayList(sundayList, currentDay){
+        
+        var weekDay = currentDay.getDay();
+        var nextSunday = currentDay.setDate(currentDay.getDate() + (7-weekDay));
+        if(nextSunday.getFullYear() > new Date().getFullYear()){
+            return sundayList;
+        }else{
+            sundayList.push(nextSunday);
+            return getSundayList(sundayList, nextSunday);
+        }
+    }
+            
+
+    </script>
+    <div id="calendar"></div>     
+</body>
+</html>
